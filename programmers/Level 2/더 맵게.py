@@ -9,13 +9,14 @@ def solution(scoville, K):
         if first >= K:
             break
         second = heapq.heappop(scoville)
-        new_food = first + second * 2
-        heapq.heappush(scoville, new_food)
+        new_food = first + 2 * second
         answer += 1
+        heapq.heappush(scoville, new_food)
 
         if len(scoville) == 1:
-            if scoville[0] < K:
-                return -1
             break
 
-    return answer
+    if scoville[0] >= K:
+        return answer
+    else:
+        return -1

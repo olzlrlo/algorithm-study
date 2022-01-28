@@ -1,12 +1,19 @@
 from functools import cmp_to_key
 
-def comparator(a,b):
+
+def comparator(a, b):
     if int(a + b) > int(b + a):
+        return -1
+    else:
         return 1
-    else: return -1
+
 
 def solution(numbers):
-    n = [str(x) for x in numbers]
-    n = sorted(n, key = cmp_to_key(comparator), reverse = True)
-    answer = str(int(''.join(n))) # 리스트를 문자열로
-    return answer
+    answer = ''
+    numbers = [str(n) for n in numbers]
+    numbers.sort(key=cmp_to_key(comparator))
+
+    for s in numbers:
+        answer += s
+
+    return str(int(answer)) # 000 -> 0 위해 str(int())
