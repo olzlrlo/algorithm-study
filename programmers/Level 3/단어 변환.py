@@ -1,32 +1,34 @@
 from collections import deque
 
+
+def adjacent(word1, word2):
+    cnt = 0
+    for w1, w2 in zip(word1, word2):
+        if w1 != w2:
+            cnt += 1
+
+    if cnt == 1:
+        return True
+    else:
+        return False
+
+
 def bfs(start, words, target):
-    visited = [False] * len(words)
     queue = deque([(start, 1)])
-    
+
     while queue:
-        v, depth = queue.popleft() # 노드 번호, 깊이
-        visited[v] = True
-        if words[v] == target: # target을 찾으면 return
+        idx, depth = queue.popleft()
+        if words[idx] == target:
             return depth
-        
-        for i in range(len(words)): # 모든 노드에 대해,
-            if not visited[i]: # 아직 방문하지 않았다면,
-                diff = 0 # 하나의 알파벳만 다른지 확인
-                for j in range(len(target)):
-                    if words[i][j] != words[v][j]:
-                        diff += 1
-                if diff == 1: # 하나의 알파벳만 다르면,
-                    queue.append((i, depth + 1)) # 큐에 push
+        for i, word in enumerate(words):
+            if adjacent(words[idx], word):
+                queue.append((i, depth + 1))
+
 
 def solution(begin, target, words):
     if target not in words:
         return 0
 
-    for i in range(len(words)):
-        diff = 0
-        for j in range(len(begin)):
-            if begin[j] != words[i][j]:
-                diff += 1
-        if diff == 1:
+    for i, word in enumerate(words):
+        if adjacent(begin, word):
             return bfs(i, words, target)

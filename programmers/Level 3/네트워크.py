@@ -1,12 +1,11 @@
-def dfs(start, computers, visited):
-    visited[start] = True
-    computer = computers[start]
+def dfs(v, visited, computers):
+    visited[v] = True
 
-    for i in range(len(computer)):
-        if not visited[i] and computer[i] == 1:
-            dfs(i, computers, visited)
-
+    for i, connected in enumerate(computers[v]):
+        if not visited[i] and connected:
+            dfs(i, visited, computers)
     return
+
 
 def solution(n, computers):
     answer = 0
@@ -14,7 +13,7 @@ def solution(n, computers):
 
     for i in range(n):
         if not visited[i]:
-            dfs(i, computers, visited)
+            dfs(i, visited, computers)
             answer += 1
 
-    return answer
+    return answe
