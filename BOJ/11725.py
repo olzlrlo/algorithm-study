@@ -1,29 +1,32 @@
-import sys
+# DFS로 구현하면 재귀 때문에 메모리 초과
+
+from collections import defaultdict
 from collections import deque
+import sys
+read = sys.stdin.readline
+
 
 def bfs(start):
     queue = deque([start])
 
     while queue:
         node = queue.popleft()
-        visited[node - 1] = True
-        for n in graph[node - 1]:
-            if not visited[n - 1]:
-                queue.append(n)
-                parents[n - 1].append(node)
 
-input = sys.stdin.readline
-n = int(input())
-graph = [[] for _ in range(n)]
+        for i in adj[node]:
+            if not visited[i]:
+                visited[i] = True
+                queue.append(i)
+                roots[i] += node
 
+
+n, adj = int(read()), defaultdict(list)
 for _ in range(n - 1):
-    n1, n2 = map(int, input().split())
-    graph[n1 - 1].append(n2)
-    graph[n2 - 1].append(n1)
+    v1, v2 = map(int, read().split())
+    adj[v1].append(v2)
+    adj[v2].append(v1)
 
-visited = [False] * n
-parents = [[] for _ in range(n)]
+roots = [0 for _ in range(n + 1)]
+visited = [True, True] + [False] * (n - 1)
 bfs(1)
-
-for parent in parents[1:]:
-    print(parent[0])
+for r in roots[2:]:
+    print(r)

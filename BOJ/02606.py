@@ -1,5 +1,6 @@
 from collections import deque
 
+
 def bfs():
     queue = deque([1])
 
@@ -11,6 +12,7 @@ def bfs():
                 queue.append(c2)
             if computer == c2 and not visited[c1 - 1]:
                 queue.append(c1)
+
 
 n, m = int(input()), int(input())
 networks = []
