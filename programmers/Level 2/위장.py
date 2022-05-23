@@ -1,13 +1,13 @@
+from collections import defaultdict
+
+
 def solution(clothes):
     answer = 1
-    closet = dict()
-
+    fashion_dict = defaultdict(int)
     for name, kind in clothes:
-        if kind not in closet:
-            closet[kind] = []
-        closet[kind].append(name)
+        fashion_dict[kind] += 1
 
-    for value in closet.values():
-        answer *= len(value) + 1
+    for key in fashion_dict.keys():  # 경우의 수
+        answer *= (fashion_dict[key] + 1)
 
     return answer - 1
