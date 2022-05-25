@@ -1,27 +1,20 @@
+from collections import defaultdict
 import operator
 
 def solution(genres, plays):
+    
+    getGenres, getPlays = defaultdict(int), defaultdict(list)  # 장르 별 총 재생 수, 장르 내 노래 재생 수
+    for i, (genre, play) in enumerate(zip(genres, plays)):  # 정렬을 위해서 음수로 저장
+        getGenres[genre] -= play
+        getPlays[genre].append((-1 * play, i))
+    
     answer = []
-    index = range(len(genres)) # 노래 수
-    dict_plays = dict() # 장르 별 총 재생 수
-    dict_index = dict() # 장르 별 {고유 번호: 재생 수}
-
-    for i, genre, play in zip(index, genres, plays):
-        if genre not in dict_plays: # 초기화
-            dict_plays[genre] = 0 # {장르: 0}
-            dict_index[genre] = dict() # {장르: {}}
-        dict_plays[genre] += play
-        dict_index[genre][i] = play
-
-    # 장르를 재생 수 기준으로 정렬
-    # key = operator.itemgetter(1): value 기준 정렬
-    dict_plays = sorted(dict_plays.items(), key = operator.itemgetter(1), reverse = True)
-
-    for genre, _ in dict_plays:
-        plays = dict_index[genre] # 장르 별 {고유 번호: 재생 수} 정보
-        plays = sorted(plays.items(), key=operator.itemgetter(1), reverse = True) # 재생 수 기준 정렬
-        answer.append(plays[0][0]) # 첫 번째 곡 추가
-        if len(plays) > 1: # 두 곡 이상 존재할 경우
-            answer.append(plays[1][0]) # 두 번째 곡도 추가
+    getGenres =  sorted(getGenres.items(), key = operator.itemgetter(1))  # dictionary의 item 기준 정렬
+    
+    for genre, _ in getGenres:
+        plays = sorted(getPlays[genre])
+        answer.append(plays[0][1])
+        if len(plays) > 1:
+            answer.append(plays[1][1])
 
     return answer
