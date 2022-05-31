@@ -1,3 +1,4 @@
+# popleft 쓰면 시간 초과
 from collections import deque
 
 
